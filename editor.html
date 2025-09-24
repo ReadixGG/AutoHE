@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Редактор — AutoHE</title>
+  <link rel="icon" type="image/svg+xml" href="Images/logo--autohe-.svg">
+  <link rel="stylesheet" href="assets/css/style.css?v=1.2" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YSDTDYCEDQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-YSDTDYCEDQ');
+  </script>
+  
+  <!-- Yandex.RTB -->
+  <script>window.yaContextCb=window.yaContextCb||[]</script>
+  <script src="https://yandex.ru/ads/system/context.js" async></script>
+</head>
+<body class="editor-page">
+  <header class="app-header">
+    <div class="container header-inner">
+      <a class="brand" href="main.html">
+        <img src="Images/logo--autohe-.svg" alt="AutoHE" class="logo-img" />
+      </a>
+      <nav class="nav">
+        <a href="main.html" class="nav-link">Главная</a>
+        <a href="projects.html" class="nav-link active">Проекты</a>
+        <a href="docs.html" class="nav-link">Документация</a>
+        <a href="mods.html" class="nav-link" id="modsNavLink">Моды <span id="modsNotificationBadge" class="notification-badge" style="display:none;">●</span></a>
+      </nav>
+      <div class="header-cta">
+        <button id="textEditorBtn" class="btn btn-secondary" style="margin-right:8px;">Текстовый Редактор (бета)</button>
+        <button id="saveScriptBtn" class="btn btn-primary">Сохранить</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="editor container">
+    <div class="editor-toolbar">
+      <h1 id="editorTitle">Редактор</h1>
+      <div class="breadcrumbs" id="breadcrumbs"></div>
+    </div>
+
+    <div class="editor-layout">
+      <section class="workspace card">
+        <svg width="0" height="0" style="position:absolute">
+          <defs id="autohe-defs">
+            <pattern id="autohe-dots-pattern" width="80" height="80" patternUnits="userSpaceOnUse">
+
+              <circle cx="20" cy="20" r="1.5" fill="rgba(124,58,237,0.15)" />
+              <circle cx="60" cy="40" r="1" fill="rgba(0,212,255,0.1)" />
+              <circle cx="40" cy="60" r="1.2" fill="rgba(255,255,255,0.05)" />
+              <circle cx="70" cy="15" r="0.8" fill="rgba(124,58,237,0.08)" />
+              <circle cx="10" cy="50" r="1.1" fill="rgba(255,255,255,0.03)" />
+              <circle cx="50" cy="25" r="0.9" fill="rgba(0,212,255,0.08)" />
+            </pattern>
+          </defs>
+        </svg>
+        <div id="blocklyArea" style="position:relative; height:100%;">
+          <div id="blocklyDiv" class="blockly-container"></div>
+        </div>
+      </section>
+
+      <aside class="preview card">
+        <div class="section-header">
+          <h3>Kotlin предпросмотр</h3>
+          <button id="refreshCodeBtn" class="btn btn-secondary btn-sm">Обновить код</button>
+        </div>
+        <pre class="code" id="kotlinPreview"></pre>
+      </aside>
+    </div>
+
+    
+  </main>
+
+  <section class="container ad-container" style="margin:24px auto;">
+    <!-- Yandex.RTB R-A-16900057-2 -->
+    <div class="ad-box card">
+      <div id="yandex_rtb_R-A-16900057-2"></div>
+    </div>
+    <script>
+    window.yaContextCb.push(() => {
+        try {
+          Ya.Context.AdvManager.render({
+              "blockId": "R-A-16900057-2",
+              "renderTo": "yandex_rtb_R-A-16900057-2"
+          });
+        } catch(_) {}
+        try {
+          const box = document.querySelector('.ad-box');
+          if(box) box.style.height = '230px'; // оставляем стабильное место
+        } catch(_) {}
+    })
+    </script>
+  </section>
+
+  <footer class="app-footer">
+    <div class="container footer-inner">
+      <div>© <span id="year"></span> AutoHE</div>
+      <div class="footer-nav">
+        <a href="docs.html">Документация</a>
+        <a href="projects.html">Проекты</a>
+        <a href="https://t.me/auto_he" target="_blank" rel="noopener">Телеграм</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/common.js?v=1.2"></script>
+  <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+  <script>
+    // Динамическая загрузка editor.js с автообновлением
+    function loadEditorScript() {
+      const script = document.createElement('script');
+      script.src = `assets/js/editor.js?t=${Date.now()}`;
+      script.onerror = () => {
+        console.warn('Ошибка загрузки editor.js, повторная попытка через 2 сек...');
+        setTimeout(loadEditorScript, 2000);
+      };
+      document.head.appendChild(script);
+    }
+    loadEditorScript();
+  </script>
+</body>
+</html>

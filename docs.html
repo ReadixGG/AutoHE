@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Документация — AutoHE</title>
+  <link rel="icon" type="image/svg+xml" href="Images/logo--autohe-.svg">
+  <link rel="stylesheet" href="assets/css/style.css?v=1.2" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YSDTDYCEDQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-YSDTDYCEDQ');
+  </script>
+  
+  <!-- Yandex.RTB -->
+  <script>window.yaContextCb=window.yaContextCb||[]</script>
+  <script src="https://yandex.ru/ads/system/context.js" async></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="container header-inner">
+      <a class="brand" href="main.html">
+        <img src="Images/logo--autohe-.svg" alt="AutoHE" class="logo-img" />
+      </a>
+      <nav class="nav">
+        <a href="main.html" class="nav-link">Главная</a>
+        <a href="projects.html" class="nav-link">Проекты</a>
+        <a href="docs.html" class="nav-link active">Документация</a>
+        <a href="mods.html" class="nav-link" id="modsNavLink">Моды <span id="modsNotificationBadge" class="notification-badge" style="display:none;">●</span></a>
+      </nav>
+      <div class="header-cta">
+        <a href="projects.html" class="btn btn-primary">Начать</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container docs">
+    <aside class="docs-nav card">
+      <h3>Разделы</h3>
+      <a href="#about">О системе</a>
+      <a href="#triggers">Триггеры</a>
+      <a href="#expressions">Выражения</a>
+      <a href="#control">Управление</a>
+      <a href="#cutscenes">Катсцены и камера</a>
+      <a href="#npc">NPC</a>
+      <a href="#dialogs">Диалоги</a>
+      <a href="#text-editor">Текстовый редактор</a>
+      <a href="#kotlin">Kotlin</a>
+      <a href="#quests">Квесты</a>
+      <a href="#trade">Торговля</a>
+      <a href="#async">Асинхронность</a>
+      <a href="#logic">Логика</a>
+      <a href="#thanks">Благодарности</a>
+    </aside>
+
+    <article class="docs-content card">
+      <section id="about">
+        <h1>Как работает AutoHE</h1>
+        <p>AutoHE — визуальный конструктор для создания скриптов HollowEngine. Система работает следующим образом:</p>
+        <ul>
+          <li><b>Blockly Editor</b> — визуальный редактор блоков, где вы собираете логику как в Scratch</li>
+          <li><b>Code Generator</b> — автоматически переводит блоки в читаемый Kotlin-код</li>
+          <li><b>HollowEngine</b> — мод для Minecraft, который выполняет сгенерированные скрипты</li>
+          <li><b>Export System</b> — упаковывает всё в готовый архив для установки в игру</li>
+        </ul>
+        <p>Благодаря этому подходу вы можете создавать сложные сюжеты для Minecraft без знания программирования.</p>
+      </section>
+
+      <section id="cutscenes">
+        <h2>Катсцены и камера</h2>
+        <p>Система камеры поддерживает три режима поведения. Блоки находятся в категории <b>Управление</b>:</p>
+        <ul>
+          <li><b>Движение камеры</b>: камера перемещается от точки к точке по сохранённому пути</li>
+          <li><b>Статическая</b>: камера стоит на месте и смотрит в одну точку</li>
+          <li><b>Статическое слежение</b>: камера стоит на месте, но поворачивается к цели (игрок/НИП)</li>
+        </ul>
+
+        <h3>Подготовка пути (движение камеры)</h3>
+        <ol>
+          <li>Возьмите в основную руку предмет <b>Камера</b> (storyteller-teleport-item).</li>
+          <li>Слева сверху появятся параметры: rotation x/y/z, fov, point count.</li>
+          <li>Встаньте в нужную позицию и направьте взгляд, при необходимости настройте z-угол и fov.</li>
+          <li>Нажмите ПКМ — добавится точка пути. Создайте 2 и более точек.</li>
+          <li>Для сохранения пути нажмите <b>Shift + ПКМ</b> и введите имя файла. Путь сохранится в файл <code>имя.nbt.nbt</code>.</li>
+        </ol>
+
+        <p>Пояснения к HUD параметрам:</p>
+        <ul>
+          <li><b>rotation x/y/z</b>: вращение камеры (yaw, pitch и roll соответственно)</li>
+          <li><b>fov</b>: поле зрения (настраивается клавишами [ и ])</li>
+          <li><b>point count</b>: количество добавленных точек пути</li>
+          <li><b>C</b>: сбросить текущий параметр (для fov и вращения)</li>
+        </ul>
+
+        <h3>Блок: Камера — движение (spline)</h3>
+        <p>В разделе <b>Управление</b> добавьте блок <b>камера: движение (spline)</b>. Он генерирует:</p>
+        <pre class="code">camera {
+  spline(60.sec, "prologue.nbt.nbt", Interpolation.QUAD_IN_OUT, true, Interpolation.QUAD_OUT)
+}</pre>
+        <p>Параметры:</p>
+        <ul>
+          <li><b>time</b>: длительность движения по всему пути (в секундах)</li>
+          <li><b>fileName</b>: имя сохранённого файла пути (<code>*.nbt.nbt</code>)</li>
+          <li><b>Interpolation</b>: тип интерполяции вдоль пути. Доступны: LINEAR, SINE_IN/OUT/IN_OUT, QUAD_IN/OUT/IN_OUT, CUBIC_IN/OUT/IN_OUT, QUART_IN/OUT/IN_OUT, QUINT_IN/OUT/IN_OUT, EXPO_IN/OUT/IN_OUT, CIRC_IN/OUT/IN_OUT, BACK_IN/OUT/IN_OUT, ELASTIC_IN/OUT/IN_OUT, BOUNCE_IN/OUT/IN_OUT</li>
+          <li><b>enableBorders</b>: включить/выключить верх/низ границы</li>
+          <li><b>borderInterpolation</b>: интерполяция границ (тот же список интерполяций)</li>
+        </ul>
+        <p>Рекомендации:</p>
+        <ul>
+          <li>Делайте больше точек на резких поворотах траектории, чтобы избежать рывков</li>
+          <li>Соотносите <b>time</b> с длиной пути: слишком маленькое время даст слишком быструю камеру</li>
+          <li>Можно ставить несколько блоков камеры подряд, чтобы комбинировать разные приёмы</li>
+        </ul>
+
+        <h3>Блок: Камера — статическая</h3>
+        <p>Фиксирует камеру на позиции и углах на заданное время:</p>
+        <pre class="code">camera {
+  static(25.sec, pos(-532.556, 31.232, 72.212), pos(-30.4, -15.3, 0.0))
+}</pre>
+        <p>Параметры:</p>
+        <ul>
+          <li><b>time</b>: время удержания</li>
+          <li><b>pos(x, y, z)</b>: позиция камеры</li>
+          <li><b>pos(yaw, pitch, roll)</b>: поворот камеры (yaw/pitch/roll). Соответствует rotation x/y/z в HUD</li>
+        </ul>
+
+        <h3>Блок: Камера — слежение за целью</h3>
+        <p>Камера стоит на месте, но поворачивается к цели (игрок/НИП):</p>
+        <pre class="code">camera {
+  entity(20.sec, pos(0.0, 64.0, 0.0), player().first())
+}</pre>
+        <p>Параметры:</p>
+        <ul>
+          <li><b>time</b>: время удержания</li>
+          <li><b>pos(x, y, z)</b>: позиция камеры</li>
+          <li><b>Entity</b>: цель — игрок (<code>player().first()</code>) или НИП (id НИПа из проекта)</li>
+        </ul>
+
+        <h3>Частые вопросы</h3>
+        <ul>
+          <li><b>Почему камера дёргается?</b> На крутых поворотах добавьте промежуточные точки, попробуйте более мягкую интерполяцию (например, SINE_IN_OUT или QUAD_IN_OUT)</li>
+          <li><b>Почему путь слишком быстрый/медленный?</b> Подберите <b>time</b> пропорционально длине пути</li>
+          <li><b>Границы не видны</b>: включите <b>enableBorders</b> и задайте интерполяцию границ</li>
+        </ul>
+      </section>
+
+      <section id="text-editor">
+        <h2>Текстовый редактор</h2>
+        <p>Упрощает создание диалогов. Откройте из обычного редактора кнопкой <b>“Текстовый Редактор (бета)”</b>.</p>
+
+        <h3>Формат диалога</h3>
+        <p>Каждая реплика с новой строки, формат: <code>Имя: Текст</code>. Пример:</p>
+        <pre class="code">Макс: Привет!
+Игрок: И тебе привет
+Андрей: Как дела?</pre>
+        <ul>
+          <li>Имя <b>Игрок</b> или <b>игрок</b> — специальный источник игрока</li>
+          <li>Имена НИПов берутся до двоеточия. Регистр сохраняется</li>
+        </ul>
+
+        <h3>Автодополнение и подсчёт строк</h3>
+        <ul>
+          <li>Нажмите <b>Tab</b> для автодополнения имени говорящего</li>
+          <li>Счётчик строк обновляется автоматически</li>
+        </ul>
+
+        <h3>NPC в диалоге</h3>
+        <ul>
+          <li>Список NPC формируется из проекта и текущего текста</li>
+          <li>Для существующих NPC модель подставляется из проекта автоматически (если найдена)</li>
+          <li>Для новых NPC можно выбрать модель из ресурсов проекта</li>
+          <li>Для типа чата “по центру” можно выбрать голову из <code>heads/</code></li>
+        </ul>
+
+        <h3>Настройки генерации</h3>
+        <ul>
+          <li><b>Тип триггеров</b>: ПКМ по NPC или по клавише</li>
+          <li><b>Клавиша</b>: укажите символ (например, F)</li>
+          <li><b>Тип чата</b>: Обычный или По центру (для центрированного доступны голова и время по умолчанию 3 сек)</li>
+        </ul>
+
+        <h3>Правила генерации блоков</h3>
+        <ul>
+          <li>Сначала создаются все отсутствующие НИПы</li>
+          <li>Ставится один стартовый триггер:
+            <ul>
+              <li>ПКМ: по первому NPC-спикеру в тексте</li>
+              <li>Клавиша: один блок keybind</li>
+            </ul>
+          </li>
+          <li>Перед КАЖДОЙ последующей репликой ставится триггер:
+            <ul>
+              <li>ПКМ: перед репликой игрока — триггер по последнему NPC; перед репликой NPC — по самому NPC</li>
+              <li>Клавиша: один и тот же keybind перед каждой репликой</li>
+            </ul>
+          </li>
+          <li>Сообщения игрока имеют источник <code>__PLAYER_FIRST__</code>, у NPC — id НИПа</li>
+        </ul>
+
+        <h3>Сохранение</h3>
+        <p>После нажатия “Создать блоки” структура диалога сохраняется в текущий скрипт и выполняется переход обратно в визуальный редактор.</p>
+      </section>
+      <section id="triggers">
+        <h2>Триггеры</h2>
+        <p>Триггеры определяют, когда и как запускается ваш скрипт:</p>
+        
+        <h3>При первом входе в мир (EntryPoint)</h3>
+        <p>Добавляет аннотацию <code>@file:EntryPoint</code>. Скрипт выполнится один раз при первом входе игрока в мир.</p>
+        
+        <h3>При входе в мир (JoinScript)</h3>
+        <p>Добавляет <code>@file:JoinScript</code>. Скрипт запускается каждый раз при входе игрока на сервер.</p>
+        
+        <h3>После скрипта</h3>
+        <p>Генерирует <code>@file:AfterScript("путь_к_скрипту")</code>. Текущий скрипт запустится после завершения указанного.</p>
+        
+        <h3>Повторяемый скрипт (RepeatableScript)</h3>
+        <p>Добавляет <code>@file:RepeatableScript</code>. Позволяет запускать скрипт многократно через команду.</p>
+        
+        <h3>Горячая клавиша</h3>
+        <p>Генерирует <code>keybind { Keybind.KEY }</code>. Реагирует на нажатие указанной клавиши игроком. Доступные клавиши: Q, E, F, X, C, Z, V, T, Y, U, I, O, R.</p>
+        
+        <h3>Ждать взаимодействия с НИПом</h3>
+        <p>Генерирует <code>npc.waitInteract()</code>. Останавливает выполнение до клика правой кнопкой по НИПу.</p>
+        
+        <h3>Ждать сообщение — любое</h3>
+        <p>Создаёт <code>players.input()</code>. Ожидает любое сообщение игрока в чат.</p>
+        
+        <h3>Ждать сообщение (точное)</h3>
+        <p>Генерирует <code>players.input("текст")</code>. Ожидает конкретное сообщение в чате.</p>
+        
+        <h3>Ждать сообщение из списка</h3>
+        <p>Создаёт <code>players.input(listOf("вариант1", "вариант2"))</code>. Ожидает один из заданных вариантов.</p>
+        
+        <h3>Ждать позицию игроков</h3>
+        <p>Генерирует <code>players.waitPos { ... }</code> с параметрами центра, радиуса, мира, иконки и инверсии. Ждёт, пока игрок войдёт/выйдет из области.</p>
+        
+        <h3>Ждать условие</h3>
+        <p>Создаёт <code>await { условие }</code>. Приостанавливает выполнение до выполнения логического условия.</p>
+      </section>
+
+      <section id="expressions">
+        <h2>Выражения</h2>
+        <p>Блоки для создания значений, которые можно использовать в других блоках:</p>
+        
+        <h3>Число</h3>
+        <p>Числовое значение (целое или дробное).</p>
+        
+        <h3>Строка</h3>
+        <p>Текстовое значение в кавычках: <code>"текст"</code></p>
+        
+        <h3>Логика</h3>
+        <p>Логическое значение: <code>true</code> или <code>false</code></p>
+        
+        <h3>Переменная</h3>
+        <p>Ссылка на существующую переменную по имени.</p>
+        
+        <h3>Бинарная операция</h3>
+        <p>Математические и логические операторы: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&amp;&amp;</code>, <code>||</code></p>
+        
+        <h3>Вызов функции (выражение)</h3>
+        <p>Вызов функции как часть выражения.</p>
+      </section>
+
+      <section id="control">
+        <h2>Управление</h2>
+        
+        <h3>Ждать N секунд</h3>
+        <p>Создаёт <code>wait { N.sec }</code>. Приостанавливает выполнение скрипта на указанное время.</p>
+
+        <h3>Затемнить экран</h3>
+        <p>Плавно затемняет экран с текстом:</p>
+        <pre class="code">fadeIn {
+  text = "Большой текст"
+  subtitle = "Малый текст"
+  color = 0x000000
+  time = 5.sec
+}</pre>
+
+        <h3>Осветлить экран</h3>
+        <p>Плавно возвращает изображение:</p>
+        <pre class="code">fadeOut {
+  text = "Большой текст"
+  subtitle = "Малый текст"
+  color = 0x000000
+  time = 5.sec
+}</pre>
+
+        <h3>Телепорт игрока</h3>
+        <p>Перемещает игрока и поворачивает по углам:</p>
+        <pre class="code">player.tpTo {
+  pos = pos(x, y, z)
+  vec = vec(pitch, yaw)
+  world = "dimension_id"
+}</pre>
+
+        <h3>Инвентарь игрока</h3>
+        <p>Сохранение/загрузка/очистка инвентаря:</p>
+        <pre class="code">player.saveInventory()
+player.loadInventory()
+player.clearInventory()</pre>
+      </section>
+
+      <section id="npc">
+        <h2>NPC</h2>
+        
+        <h3>Создать НИП</h3>
+        <p>Генерирует код создания НИПа:</p>
+        <pre class="code">val npc by NPCEntity.creating {
+    name = "Имя НИПа"
+    model = "modid:models/модель.gltf"
+    pos = pos(x, y, z)
+    showName = false
+    world = "overworld"
+}</pre>
+        
+        <h3>Идти</h3>
+        <p>Универсальный блок движения с выбором типа:</p>
+        <ul>
+          <li><b>Режим "бесконечно":</b> <code>npc.moveAlwaysTo { target }</code> — НИП постоянно следует за целью</li>
+          <li><b>Остальные режимы:</b> <code>fmoveTo(npc, target, расстояние, скорость)</code> — разовое движение с параметрами</li>
+          <li><b>Остановить:</b> <code>npc.stopMoveAlways()</code></li>
+        </ul>
+        <p>Поддерживает цели: позиция, игрок, другой НИП, произвольное выражение.</p>
+        
+        <h3>Смотреть</h3>
+        <p>Управление взглядом НИПа:</p>
+        <ul>
+          <li><b>Бесконечно:</b> <code>npc.lookAlwaysAt { target }</code></li>
+          <li><b>Разово:</b> <code>npc.lookAt { target }</code></li>
+          <li><b>Остановить:</b> <code>npc.stopLookAlways()</code></li>
+        </ul>
+        
+        <h3>Бежать</h3>
+        <p>Управляет режимом бега: <code>npc.isRunning = true/false</code></p>
+        
+        <h3>Предмет в правую руку</h3>
+        <p>Даёт НИПу предмет в правую руку: <code>npc.giveRightHand { item(...) }</code></p>
+        
+        <h3>Деспаун</h3>
+        <p>Удаляет НИПа из мира: <code>npc.despawn()</code></p>
+        
+        <h3>Анимация (once)</h3>
+        <p>Проигрывает анимацию один раз: <code>npc.playOnce {"название"}</code></p>
+        
+        <h3>Анимация (looped)</h3>
+        <p>Зацикливает анимацию: <code>npc.playLooped {"название"}</code></p>
+        
+        <h3>Анимация (freeze)</h3>
+        <p>Замораживает на кадре анимации: <code>npc.playFreeze {"название"}</code></p>
+        
+        <h3>Стоп анимация</h3>
+        <p>Останавливает анимацию: <code>npc.stop {"название"}</code> или <code>npc.stop {"*"}</code> для всех анимаций.</p>
+        
+        <h3>Ломать блок</h3>
+        <p>НИП идёт к блоку и ломает его:</p>
+        <pre class="code">fdestroyBlock(npc, poz(x, y, z), (20*задержка_в_сек).toInt())</pre>
+        
+        <h3>Использовать блок</h3>
+        <p>НИП идёт к блоку и взаимодействует с ним:</p>
+        <pre class="code">fuseBlock(npc, poz(x, y, z), (20*задержка_в_сек).toInt())</pre>
+
+        <h3>Бессмертие</h3>
+        <p>Делает НИПа бессмертным/смертным:</p>
+        <pre class="code">npc.invulnerable = true // или false</pre>
+
+        <h3>Хитбокс</h3>
+        <p>Меняет тип хитбокса НИПа:</p>
+        <pre class="code">npc.hitboxMode = HitboxMode.BLOCKING // PULLING / EMPTY</pre>
+      </section>
+
+      <section id="dialogs">
+        <h2>Диалоги</h2>
+        
+        <h3>Диалог (tellraw)</h3>
+        <p>Отправляет сообщение в чат с автоматической окраской имени говорящего:</p>
+        <pre class="code">execute{"tellraw @a [\"\",{\"text\":\"[Имя]\",\"color\":\"цвет\"},{\"text\":\" Текст реплики\",\"color\":\"white\"}]"}</pre>
+        <p>Источник может быть игроком или любым созданным НИПом. Система автоматически определяет цвет и добавляет пробел после имени.</p>
+        
+        <h3>Уведомление</h3>
+        <p>Показывает всплывающее уведомление с иконкой предмета:</p>
+        <pre class="code">execute{"/notification minecraft:diamond \"Текст уведомления\" 5"}</pre>
+        <p>Параметры: предмет (иконка), текст сообщения, время отображения в секундах.</p>
+
+        <h3>Диалог: выборы (динамический)</h3>
+        <p>Позволяет указать произвольное число вариантов. Система отправляет уведомление и ждёт ответ:</p>
+        <pre class="code">execute{"/notification @a minecraft:paper \"Выбор: Да/Нет/Позже\" 10"}
+val msg by player.input()
+If({msg == "Да"}){
+  // ...
+}
+If({msg == "Нет"}){
+  // ...
+}
+If({msg == "Позже"}){
+  // ...
+}</pre>
+      </section>
+
+      <section id="kotlin">
+        <h2>Kotlin</h2>
+        
+        <h3>val переменная</h3>
+        <p>Создаёт неизменяемую переменную: <code>val имя = значение</code></p>
+        
+        <h3>var переменная</h3>
+        <p>Создаёт изменяемую переменную: <code>var имя = значение</code></p>
+        
+        <h3>Присвоить значение</h3>
+        <p>Изменяет существующую переменную: <code>переменная = новое_значение</code></p>
+        
+        <h3>if (если)</h3>
+        <p>Условная конструкция с ветками "если" и "иначе":</p>
+        <pre class="code">if (условие) {
+    // блоки в ветке "если"
+} else {
+    // блоки в ветке "иначе"
+}</pre>
+        
+        <h3>while (пока)</h3>
+        <p>Цикл с предусловием: <code>while (условие) { ... }</code></p>
+        
+        <h3>for (диапазон)</h3>
+        <p>Цикл по числовому диапазону: <code>for (переменная in от..до) { ... }</code></p>
+        
+        <h3>Функция</h3>
+        <p>Определение собственной функции: <code>fun имя(параметры): тип { ... }</code></p>
+        
+        <h3>Вызов функции</h3>
+        <p>Вызов определённой функции: <code>имя_функции(аргументы)</code></p>
+        
+        <h3>Комментарий</h3>
+        <p>Добавляет комментарий в сгенерированный код: <code>// текст комментария</code></p>
+        
+        <h3>Запустить скрипт</h3>
+        <p>Запуск другого скрипта: <code>startScript { "путь/к/скрипту.se.kts" }</code></p>
+      </section>
+
+      <section id="quests">
+        <h2>Квесты</h2>
+        
+        <h3>НИП: запросить предметы</h3>
+        <p>Создаёт задание на сбор предметов:</p>
+        <pre class="code">npc.requestItems {
+    +item("minecraft:diamond", 5)
+    +item("minecraft:gold_ingot", 10)
+}</pre>
+        
+        <h3>Требование предмета</h3>
+        <p>Блок-элемент для предыдущего: <code>+item("id_предмета", количество, "nbt")</code></p>
+      </section>
+
+      <section id="trade">
+        <h2>Торговля</h2>
+        
+        <h3>Трейды НИПа</h3>
+        <p>Контейнер для офферов торговца. Внутри размещаются блоки "оффер".</p>
+        
+        <h3>Оффер</h3>
+        <p>Создаёт предложение обмена:</p>
+        <pre class="code">MerchantOffer(
+    ItemStack(Items.DIAMOND, 1),      // цена 1
+    ItemStack(Items.AIR),             // цена 2 (опционально)
+    ItemStack(Items.EMERALD, 1),      // результат
+    0, 3,                            // использований, макс использований
+    5, 0.2f                          // XP, множитель цены
+)</pre>
+        
+        <h3>Сбросить использования</h3>
+        <p>Обновляет лимиты торговли: <code>npc.clearTradesUses()</code></p>
+        
+        <h3>Удалить возможность торговать</h3>
+        <p>Убирает все предложения: <code>npc.clearTrades()</code></p>
+      </section>
+
+      <section id="async">
+        <h2>Асинхронность</h2>
+        
+        <h3>async { }</h3>
+        <p>Запускает параллельную задачу:</p>
+        <pre class="code">async {
+    // параллельные действия
+}</pre>
+        
+        <h3>val x = async { }</h3>
+        <p>Создаёт управляемую асинхронную задачу с возможностью контроля.</p>
+        
+        <h3>Возобновить async</h3>
+        <p>Возобновляет приостановленную задачу: <code>задача.resume()</code></p>
+        
+        <h3>Остановить async</h3>
+        <p>Останавливает выполнение задачи: <code>задача.stop()</code></p>
+        
+        <h3>Дождаться async</h3>
+        <p>Ожидает завершения задачи: <code>задача.join()</code></p>
+      </section>
+
+      <section id="logic">
+        <h2>Логика</h2>
+        
+        <h3>Сравнение</h3>
+        <p>Сравнивает два значения: равно, не равно, больше, меньше, больше или равно, меньше или равно.</p>
+        
+        <h3>Логическая операция</h3>
+        <p>Логические операторы: И (&&), ИЛИ (||).</p>
+        
+        <h3>Логическое значение</h3>
+        <p>Константы: <code>true</code> (истина) или <code>false</code> (ложь).</p>
+      </section>
+
+      <section id="thanks">
+        <h2>Благодарности</h2>
+        <p><b>Особая благодарность HollowHorizon</b> за создание и развитие <b>HollowEngine</b> — основного мода, который делает возможной всю систему AutoHE.</p>
+        
+        <p>Без его труда и таланта существование AutoHE было бы невозможным. Вся функциональность AutoHE строится на фундаменте HollowEngine.</p>
+        
+        <p><b>HollowHorizon</b> — вы создали нечто невероятное для сообщества Minecraft. Спасибо за ваш вклад в развитие модостроения!</p>
+      </section>
+    </article>
+  </main>
+
+  <section class="container" style="margin:24px auto;">
+    <!-- Yandex.RTB R-A-16900057-2 -->
+    <div id="yandex_rtb_R-A-16900057-2"></div>
+    <script>
+    window.yaContextCb.push(() => {
+        Ya.Context.AdvManager.render({
+            "blockId": "R-A-16900057-2",
+            "renderTo": "yandex_rtb_R-A-16900057-2"
+        })
+    })
+    </script>
+  </section>
+
+  <footer class="app-footer">
+    <div class="container footer-inner">
+      <div>© <span id="year"></span> AutoHE</div>
+      <div class="footer-nav">
+        <a href="docs.html">Документация</a>
+        <a href="projects.html">Проекты</a>
+        <a href="https://t.me/auto_he" target="_blank" rel="noopener">Телеграм</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/common.js?v=1.2"></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoHE — Сценарист</title>
+  <link rel="icon" type="image/svg+xml" href="Images/logo--autohe-.svg">
+  <link rel="stylesheet" href="assets/css/style.css?v=1.2" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* Локальные стили только для этой страницы */
+    body.story-bot-page .input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #1f2937;
+      background: #0e131a;
+      color: #e8eff7;
+      outline: none;
+    }
+    body.story-bot-page .input:focus { border-color: #7c3aed; box-shadow: 0 0 0 2px rgba(124,58,237,0.25); }
+    body.story-bot-page .input-label { display:block; font-weight:600; margin-bottom:6px; }
+    body.story-bot-page textarea.input { resize: vertical; min-height: 112px; }
+    body.story-bot-page .grid .card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); }
+    body.story-bot-page #output { background:#0b0f15; border:1px solid #1f2937; border-radius:8px; padding:12px; }
+    body.story-bot-page #generateBtn { width: 100%; }
+    @media (min-width: 900px){ body.story-bot-page #generateBtn { width: auto; } }
+  </style>
+</head>
+<body class="story-bot-page">
+  <header class="app-header">
+    <div class="container header-inner">
+      <a class="brand" href="main.html">
+        <img src="Images/logo--autohe-.svg" alt="AutoHE" class="logo-img" />
+      </a>
+      <nav class="nav">
+        <a href="main.html" class="nav-link">Главная</a>
+        <a href="projects.html" class="nav-link">Проекты</a>
+        <a href="docs.html" class="nav-link">Документация</a>
+        <a href="mods.html" class="nav-link" id="modsNavLink">Моды <span id="modsNotificationBadge" class="notification-badge" style="display:none;">●</span></a>
+      </nav>
+      <div class="header-cta">
+        <a href="projects.html" class="btn btn-primary">Начать</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="margin-top:24px;">
+    <div class="card" style="padding:16px;">
+      <h1 style="margin-top:0;">AutoHE Сценарист (бета)</h1>
+      <p class="section-description">Придумай краткий сюжет: название, описание, серии и их синопсисы, персонажи, темы и тон.</p>
+
+      <div class="grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:12px; margin-top:12px;">
+        <div class="card" style="padding:12px;">
+          <label class="input-label">API ключ (GitHub PAT)</label>
+          <input id="apiKey" type="password" class="input" placeholder="ghp_..." />
+
+          <label class="input-label" style="margin-top:12px;">Имя героя</label>
+          <input id="hero" type="text" class="input" value="Алекс" />
+
+          <label class="input-label" style="margin-top:12px;">Жанр</label>
+          <input id="genre" type="text" class="input" value="Фэнтези-приключение" />
+
+          <label class="input-label" style="margin-top:12px;">Количество серий</label>
+          <input id="episodes" type="number" min="1" max="20" class="input" value="5" />
+
+          <label class="input-label" style="margin-top:12px;">Пожелания (опционально)</label>
+          <textarea id="wishes" class="input" rows="4" placeholder="Атмосфера, сеттинг, запреты..."></textarea>
+
+          <button id="generateBtn" class="btn btn-primary" style="margin-top:12px;">Сгенерировать</button>
+          <div id="status" class="section-description" style="margin-top:8px; color:#64748b;"></div>
+        </div>
+
+        <div class="card" style="padding:12px;">
+          <div style="font-weight:600; margin-bottom:6px;">Результат</div>
+          <pre class="code" id="output" style="min-height:360px; white-space:pre-wrap;"></pre>
+        </div>
+      </div>
+      <div class="section-description" style="margin-top:8px; color:#64748b;">Примечание: для прямых запросов из браузера может потребоваться корректная конфигурация CORS на стороне API.</div>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <div class="container footer-inner">
+      <div>© <span id="year"></span> AutoHE</div>
+      <div class="footer-nav">
+        <a href="docs.html">Документация</a>
+        <a href="projects.html">Проекты</a>
+        <a href="https://t.me/auto_he" target="_blank" rel="noopener">Телеграм</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/common.js?v=1.2"></script>
+  <script src="assets/js/story-bot.js?v=1.2"></script>
+  <script>window.AutoHE && window.AutoHE.setYear && window.AutoHE.setYear();</script>
+</body>
+</html>
+
+

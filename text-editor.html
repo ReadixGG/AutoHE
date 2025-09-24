@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Текстовый редактор — AutoHE</title>
+  <link rel="icon" type="image/svg+xml" href="Images/logo--autohe-.svg">
+  <link rel="stylesheet" href="assets/css/style.css?v=1.2" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YSDTDYCEDQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-YSDTDYCEDQ');
+  </script>
+  
+  <!-- Yandex.RTB -->
+  <script>window.yaContextCb=window.yaContextCb||[]</script>
+  <script src="https://yandex.ru/ads/system/context.js" async></script>
+</head>
+<body class="text-editor-page">
+  <header class="app-header">
+    <div class="container header-inner">
+      <a class="brand" href="main.html">
+        <img src="Images/logo--autohe-.svg" alt="AutoHE" class="logo-img" />
+      </a>
+      <nav class="nav">
+        <a href="main.html" class="nav-link">Главная</a>
+        <a href="projects.html" class="nav-link">Проекты</a>
+        <a href="docs.html" class="nav-link">Документация</a>
+        <a href="mods.html" class="nav-link" id="modsNavLink">Моды <span id="modsNotificationBadge" class="notification-badge" style="display:none;">●</span></a>
+      </nav>
+      <div class="header-cta">
+        <button id="backToProjectBtn" class="btn btn-secondary" style="margin-right:8px;">← Назад к редактору</button>
+        <button id="generateBlocksBtn" class="btn btn-primary">Создать блоки</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="text-editor container">
+    <div class="text-editor-toolbar">
+      <h1>Текстовый редактор диалогов</h1>
+      <div class="toolbar-stats">
+        <div class="project-info">Проект: <span id="projectName">Загрузка...</span></div>
+      </div>
+    </div>
+
+    <div class="text-editor-content">
+      <!-- Основное поле ввода -->
+      <div class="text-input-panel">
+        <div class="text-input-header">
+          <h3>Диалог</h3>
+          <div class="input-hints">
+            <div class="tab-hint">💡 Нажмите Tab для автодополнения NPC</div>
+            <div class="line-counter">Строк: <span id="lineCounter">1</span></div>
+          </div>
+        </div>
+        <textarea 
+          id="dialogTextarea" 
+          placeholder="Пример:&#10;Максим Петрович: Привет! Как дела?&#10;Игрок: Всё отлично, спасибо!&#10;Максим Петрович: Рад слышать!"
+          spellcheck="false"
+          autocomplete="off"
+        ></textarea>
+      </div>
+
+      <!-- Панель управления NPC -->
+      <div class="npc-management-panel">
+        <div class="panel-header">
+          <h3>NPC в диалоге</h3>
+        </div>
+        <div id="npcList" class="npc-list">
+          <div class="no-npcs">Добавьте NPC в диалог, чтобы настроить их</div>
+        </div>
+
+        <!-- Настройки генерации -->
+        <div class="text-editor-settings">
+          <h3>Настройки генерации</h3>
+          <div class="settings-grid">
+            <div class="setting-group">
+              <label>Тип триггеров:</label>
+              <select id="triggerType">
+                <option value="rightclick">ПКМ по NPC (перед каждой фразой)</option>
+                <option value="key">По клавише</option>
+              </select>
+            </div>
+            <div class="setting-group" id="keySettingGroup" style="display:none;">
+              <label>Клавиша:</label>
+              <input type="text" id="triggerKey" placeholder="Например: f" maxlength="1" />
+            </div>
+            <div class="setting-group">
+              <label>Тип чата:</label>
+              <select id="chatType">
+                <option value="normal">Обычный</option>
+                <option value="center">По центру</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <section class="container" style="margin:24px auto;">
+    <!-- Yandex.RTB R-A-16900057-2 -->
+    <div id="yandex_rtb_R-A-16900057-2"></div>
+    <script>
+    window.yaContextCb.push(() => {
+        Ya.Context.AdvManager.render({
+            "blockId": "R-A-16900057-2",
+            "renderTo": "yandex_rtb_R-A-16900057-2"
+        })
+    })
+    </script>
+  </section>
+
+  <footer class="app-footer">
+    <div class="container footer-inner">
+      <div>© <span id="year"></span> AutoHE</div>
+      <div class="footer-nav">
+        <a href="docs.html">Документация</a>
+        <a href="projects.html">Проекты</a>
+        <a href="https://t.me/auto_he" target="_blank" rel="noopener">Телеграм</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/common.js?v=1.2"></script>
+  <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+  <script src="assets/js/text-editor.js?v=1.2"></script>
+</body>
+</html>

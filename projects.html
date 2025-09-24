@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Проекты — AutoHE</title>
+  <link rel="icon" type="image/svg+xml" href="Images/logo--autohe-.svg">
+  <link rel="stylesheet" href="assets/css/style.css?v=1.2" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha512-XMVd28F1oH/O71fzwBnV7HucLxVwtxf26XV8P4wPk26EDxuGZ91N8bsOttmnomcCD3CS5ZMRL50H0GgOHvegtg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YSDTDYCEDQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-YSDTDYCEDQ');
+  </script>
+  
+  <!-- Yandex.RTB -->
+  <script>window.yaContextCb=window.yaContextCb||[]</script>
+  <script src="https://yandex.ru/ads/system/context.js" async></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="container header-inner">
+      <a class="brand" href="main.html">
+        <img src="Images/logo--autohe-.svg" alt="AutoHE" class="logo-img" />
+      </a>
+      <nav class="nav">
+        <a href="main.html" class="nav-link">Главная</a>
+        <a href="projects.html" class="nav-link active">Проекты</a>
+        <a href="docs.html" class="nav-link">Документация</a>
+        <a href="mods.html" class="nav-link" id="modsNavLink">Моды <span id="modsNotificationBadge" class="notification-badge" style="display:none;">●</span></a>
+      </nav>
+      <div class="header-cta">
+        <a href="projects.html" class="btn btn-primary">Начать</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="toolbar">
+      <h1>Мои проекты</h1>
+      <div class="toolbar-actions">
+        <button id="createProjectBtn" class="btn btn-primary">Создать проект</button>
+        <button id="loadAutoheGlobalBtn" class="btn btn-ghost">Загрузить проект (.autohe)</button>
+      </div>
+    </div>
+
+    <div id="projectsGrid" class="grid-3"></div>
+
+    <dialog id="createProjectDialog" class="dialog">
+      <form method="dialog" id="createProjectForm" class="dialog-body">
+        <h2>Новый проект</h2>
+        <label class="field">
+          <span>Название проекта</span>
+          <input id="projectNameInput" type="text" required placeholder="Например, \"Путешествие героя\"" />
+        </label>
+        <div class="dialog-actions">
+          <button value="cancel" class="btn btn-ghost">Отмена</button>
+          <button value="confirm" class="btn btn-primary">Создать</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="renameProjectDialog" class="dialog">
+      <form method="dialog" id="renameProjectForm" class="dialog-body">
+        <h2>Переименовать проект</h2>
+        <label class="field">
+          <span>Новое название проекта</span>
+          <input id="renameProjectInput" type="text" required />
+        </label>
+        <div class="dialog-actions">
+          <button value="cancel" class="btn btn-ghost">Отмена</button>
+          <button value="confirm" class="btn btn-primary">Сохранить</button>
+        </div>
+      </form>
+    </dialog>
+  </main>
+
+  <section class="container" style="margin:24px auto;">
+    <!-- Yandex.RTB R-A-16900057-2 -->
+    <div id="yandex_rtb_R-A-16900057-2"></div>
+    <script>
+    window.yaContextCb.push(() => {
+        Ya.Context.AdvManager.render({
+            "blockId": "R-A-16900057-2",
+            "renderTo": "yandex_rtb_R-A-16900057-2"
+        })
+    })
+    </script>
+  </section>
+
+  <footer class="app-footer">
+    <div class="container footer-inner">
+      <div>© <span id="year"></span> AutoHE</div>
+      <div class="footer-nav">
+        <a href="docs.html">Документация</a>
+        <a href="projects.html">Проекты</a>
+        <a href="https://t.me/auto_he" target="_blank" rel="noopener">Телеграм</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/common.js?v=1.2"></script>
+  <script src="assets/js/projects.js?v=1.2"></script>
+</body>
+</html>

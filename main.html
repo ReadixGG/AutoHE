@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoHE — Создай свою Minecraft-историю</title>
+  <link rel="icon" type="image/svg+xml" href="Images/logo--autohe-.svg">
+  <link rel="stylesheet" href="assets/css/style.css?v=1.2" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YSDTDYCEDQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-YSDTDYCEDQ');
+  </script>
+  
+  <!-- Yandex.RTB -->
+  <script>window.yaContextCb=window.yaContextCb||[]</script>
+  <script src="https://yandex.ru/ads/system/context.js" async></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="container header-inner">
+      <a class="brand" href="main.html">
+        <img src="Images/logo--autohe-.svg" alt="AutoHE" class="logo-img" />
+      </a>
+      <nav class="nav">
+        <a href="main.html" class="nav-link active">Главная</a>
+        <a href="projects.html" class="nav-link">Проекты</a>
+        <a href="docs.html" class="nav-link">Документация</a>
+        <a href="mods.html" class="nav-link" id="modsNavLink">Моды <span id="modsNotificationBadge" class="notification-badge" style="display:none;">●</span></a>
+      </nav>
+      <div class="header-cta">
+        <a href="projects.html" class="btn btn-primary">Начать</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner" style="text-align:center;">
+        <img src="Images/logo--autohe-.svg" alt="AutoHE" class="logo-hero" style="margin:0 auto 16px; display:block;"/>
+        <h1>Создавай крутые истории и карты для Minecraft</h1>
+        <p class="lead">Диалоги, квесты, кат‑сцены, анимации NPC, события на сервере — всё собирается блоками без кода. Каждый сможет сделать это легко: открой конструктор, перетащи блоки и запусти результат в игре.</p>
+        <p class="lead" style="margin-top:8px; color:#64748b;">Работает только на версии Minecraft 1.19.2</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-lg" href="projects.html">Создать проект</a>
+          <a class="btn btn-ghost btn-lg" href="docs.html">Читать документацию</a>
+          <a class="btn btn-ghost btn-lg" href="#updates">Обновления</a>
+        </div>
+        <div class="hero-preview card">
+          <div class="preview-header">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <span class="title">Пример блока</span>
+          </div>
+          <div class="preview-body">
+            <div class="block event">когда игра начинается</div>
+            <div class="block action">сказать "Привет, мир!"</div>
+            <div class="block control">подождать <input value="1" size="1"/> сек</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-bg"></div>
+    </section>
+
+    <section class="features container">
+      <h2 class="section-title">Почему AutoHE</h2>
+      <p class="section-description">Мощный инструмент для создания Minecraft-историй без программирования</p>
+
+      <div class="features-grid">
+        <div class="feature-card card">
+          <div class="feature-visual">
+            <div class="feature-icon-bg">
+              <span class="feature-icon">🧩</span>
+            </div>
+            <div class="feature-glow"></div>
+          </div>
+          <div class="feature-content">
+            <h3>Визуальное программирование</h3>
+            <p>Создавай истории блоками, без сложного кода. Похоже на Scratch, но экспортируется в Kotlin для Minecraft.</p>
+            <div class="feature-benefits">
+              <span class="benefit">Без кода</span>
+              <span class="benefit">Легко учиться</span>
+              <span class="benefit">Быстро</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-card card">
+          <div class="feature-visual">
+            <div class="feature-icon-bg content">
+              <span class="feature-icon">📦</span>
+            </div>
+            <div class="feature-glow content"></div>
+          </div>
+          <div class="feature-content">
+            <h3>Гибкая структура</h3>
+            <p>Сюжетные, Контент и Модификационные скрипты. Создавай сколько угодно каждого типа в одном проекте.</p>
+            <div class="feature-benefits">
+              <span class="benefit">3 типа скриптов</span>
+              <span class="benefit">Неограниченно</span>
+              <span class="benefit">Организованно</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-card card">
+          <div class="feature-visual">
+            <div class="feature-icon-bg game">
+              <span class="feature-icon">🎮</span>
+            </div>
+            <div class="feature-glow game"></div>
+          </div>
+          <div class="feature-content">
+            <h3>Готово к игре</h3>
+            <p>Экспортируй проект в Minecraft в один клик: получишь ZIP с папкой <code>hollowengine</code>. Моды скачиваются отдельно одним архивом. Перенеси всё в папку игры и перезагрузи ресурсы (F3+T).</p>
+            <div class="feature-benefits">
+              <span class="benefit">Экспорт ZIP</span>
+              <span class="benefit">Моды отдельно</span>
+              <span class="benefit">Инструкция в архиве</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="examples container">
+      <h2 class="section-title">Примеры</h2>
+      <p class="section-description">Готовые проекты для быстрого старта — открой и пробуй</p>
+      <div id="examplesGrid" class="examples-grid"></div>
+    </section>
+  </main>
+
+  <section id="updates" class="container" style="margin-top:48px;">
+    <h2 class="section-title">Обновления</h2>
+    <p class="section-description">Последние изменения и новинки платформы</p>
+
+    <div class="card" style="padding:16px; margin:16px 0;">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;">
+        <div>
+          <h3 style="margin:0;">Версия 1.2 AutoHE</h3>
+          <div style="color:var(--muted); font-size:14px; margin-top:4px;">Исправления стабильности, Текстовый редактор диалогов, блоки камеры</div>
+        </div>
+        <a href="projects.html" class="btn btn-primary">Попробовать сейчас</a>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:12px; margin-top:16px;">
+        <div class="card" style="padding:12px;">
+          <div style="font-weight:600; margin-bottom:6px;">Текстовый редактор</div>
+          <div style="color:var(--muted);">Быстрое создание диалогов простым текстом с автодополнением и генерацией блоков. Кнопка «Текстовый Редактор (бета)» в редакторе.</div>
+        </div>
+        <div class="card" style="padding:12px;">
+          <div style="font-weight:600; margin-bottom:6px;">Блоки камеры</div>
+          <div style="color:var(--muted);">Новые блоки для катсцен: движение по пути (spline), статическая, слежение за целью. Расширенные интерполяции.</div>
+        </div>
+        <div class="card" style="padding:12px;">
+          <div style="font-weight:600; margin-bottom:6px;">Стабильность</div>
+          <div style="color:var(--muted);">Общие улучшения надёжности и плавности работы.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="container" style="margin:24px auto;">
+    <!-- Yandex.RTB R-A-16900057-2 -->
+    <div id="yandex_rtb_R-A-16900057-2"></div>
+    <script>
+    window.yaContextCb.push(() => {
+        Ya.Context.AdvManager.render({
+            "blockId": "R-A-16900057-2",
+            "renderTo": "yandex_rtb_R-A-16900057-2"
+        })
+    })
+    </script>
+  </section>
+
+
+  <footer class="app-footer">
+    <div class="container footer-inner">
+      <div>© <span id="year"></span> AutoHE</div>
+      <div class="footer-nav">
+        <a href="docs.html">Документация</a>
+        <a href="projects.html">Проекты</a>
+        <a href="https://t.me/auto_he" target="_blank" rel="noopener">Телеграм</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/common.js?v=1.2"></script>
+  <script src="assets/js/index.js?v=1.2"></script>
+</body>
+</html>

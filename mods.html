@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Скачать моды — AutoHE</title>
+  <link rel="icon" type="image/svg+xml" href="Images/logo--autohe-.svg">
+  <link rel="stylesheet" href="assets/css/style.css?v=1.2" />
+  
+  <!-- Yandex.RTB -->
+  <script>window.yaContextCb=window.yaContextCb||[]</script>
+  <script src="https://yandex.ru/ads/system/context.js" async></script>
+</head>
+<body>
+  <section class="container" style="margin:16px auto 0;">
+    <!-- Yandex.RTB R-A-16900057-2 -->
+    <div id="yandex_rtb_R-A-16900057-2"></div>
+    <script>
+    window.yaContextCb.push(() => {
+        Ya.Context.AdvManager.render({
+            "blockId": "R-A-16900057-2",
+            "renderTo": "yandex_rtb_R-A-16900057-2"
+        })
+    })
+    </script>
+  </section>
+  <header class="app-header">
+    <div class="container header-inner">
+      <a class="brand" href="main.html">
+        <img src="Images/logo--autohe-.svg" alt="AutoHE" class="logo-img" />
+      </a>
+      <nav class="nav">
+        <a href="main.html" class="nav-link">Главная</a>
+        <a href="projects.html" class="nav-link">Проекты</a>
+        <a href="docs.html" class="nav-link">Документация</a>
+        <a href="mods.html" class="nav-link active" id="modsNavLink">Моды <span id="modsNotificationBadge" class="notification-badge" style="display:none;">●</span></a>
+      </nav>
+      <div class="header-cta">
+        <a href="projects.html" class="btn btn-ghost">Назад к проектам</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top:24px;">
+    <h1>Скачать моды</h1>
+    <p style="margin-top:4px; color:#64748b;">Для версии Forge 1.19.2 (без Optifine)</p>
+    <p>Скачайте готовый архив с модами и распакуйте в папку <code>mods</code> вашей игры.</p>
+    <div class="card" style="margin-top:12px; background: rgba(234, 179, 8, 0.12); border: 1px solid rgba(234, 179, 8, 0.35);">
+      <div class="card-body">
+        <p style="margin:0; color: #CA8A04; font-weight: 600;">🆕 Обновление модов</p>
+        <p style="margin: 8px 0 0 0;">Добавлен новый файл <strong>autohe-1.1.jar</strong>. Скачайте свежий архив модов ниже и замените старые файлы в папке <code>mods</code>.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3);">
+      <div class="card-body">
+        <p style="margin:0; color: rgb(34, 197, 94); font-weight: 600;">ℹ️ Важная информация</p>
+        <p style="margin: 8px 0 0 0;">Моды нужно установить <strong>один раз</strong>. Обновляйте их только когда рядом с «Моды» в навигации появится красный значок. Это произойдет при первом посещении сайта или когда мы обновим моды.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:12px;">
+      <div class="card-body">
+        <h3 style="margin: 0 0 12px 0; font-size: 1.2em;">Содержимое архива:</h3>
+        <ul style="line-height:1.8; margin:0;">
+          <li>kotlinforforge-3.12.0-all.jar</li>
+          <li>kotlinscript-1.4.jar</li>
+          <li>hollowengine-1.19.2-1.6.2a.jar</li>
+          <li>hc-1.19.2-1.6.4.jar</li>
+          <li>autohe-1.1.jar</li>
+          <li>architectury-6.6.92-forge.jar</li>
+          <li>item-filters-forge-1902.2.9-build.51.jar</li>
+          <li>ftb-library-forge-1902.4.1-build.236.jar</li>
+          <li>ftb-chunks-forge-1902.4.7-build.420.jar</li>
+          <li>ftb-teams-forge-1902.2.14-build.123.jar</li>
+          <li>ftb-quests-forge-1902.5.10-build.497.jar</li>
+          <li>ftb-ranks-forge-1902.1.16-build.98.jar</li>
+        </ul>
+        <div style="margin-top:16px; padding-top:16px; border-top: 1px solid #e2e8f0;">
+          <a href="Mods/Mods.rar" download="autohe-mods.rar" class="btn" style="text-decoration: none;">
+            📦 Скачать архив с модами
+          </a>
+          <p style="margin: 8px 0 0 0; font-size: 0.9em; color: #64748b;">
+            Размер: ~50 МБ • Формат: RAR
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  
+
+  <script>
+  (function(){
+    // Система уведомлений о модах
+    function hideModsNotification(){
+      localStorage.setItem('autohe.mods.seen', 'true');
+      localStorage.removeItem('autohe.mods.forceNotify');
+      const badge = document.getElementById('modsNotificationBadge');
+      if(badge) badge.style.display = 'none';
+    }
+    // Скрываем уведомление при посещении страницы модов
+    hideModsNotification();
+  })();
+  </script>
+  
+</body>
+</html> 

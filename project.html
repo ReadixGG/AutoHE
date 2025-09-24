@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Проект — AutoHE</title>
+  <link rel="icon" type="image/svg+xml" href="Images/logo--autohe-.svg">
+  <link rel="stylesheet" href="assets/css/style.css?v=1.2" />
+  <style>
+    .nav-tab {
+      width: 100%;
+      padding: 12px 16px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      text-align: left;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-tab:hover {
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+    }
+    .nav-tab.active {
+      background: rgba(34,197,94,0.15);
+      color: #22c55e;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha512-XMVd28F1oH/O71fzwBnV7HucLxVwtxf26XV8P4wPk26EDxuGZ91N8bsOttmnomcCD3CS5ZMRL50H0GgOHvegtg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YSDTDYCEDQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-YSDTDYCEDQ');
+  </script>
+  
+  <!-- Yandex.RTB -->
+  <script>window.yaContextCb=window.yaContextCb||[]</script>
+  <script src="https://yandex.ru/ads/system/context.js" async></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="container header-inner">
+      <a class="brand" href="main.html">
+        <img src="Images/logo--autohe-.svg" alt="AutoHE" class="logo-img" />
+      </a>
+      <nav class="nav">
+        <a href="main.html" class="nav-link">Главная</a>
+        <a href="projects.html" class="nav-link active">Проекты</a>
+        <a href="docs.html" class="nav-link">Документация</a>
+        <a href="mods.html" class="nav-link" id="modsNavLink">Моды <span id="modsNotificationBadge" class="notification-badge" style="display:none;">●</span></a>
+      </nav>
+      <div class="header-cta">
+        <a href="projects.html" class="btn btn-ghost">Назад к проектам</a>
+        <button id="exportBtn" class="btn">Экспортировать проект</button>
+      </div>
+    </div>
+  </header>
+
+  <main style="display: flex; height: calc(100vh - 64px);">
+    <!-- Sidebar Navigation -->
+    <aside style="width: 280px; background: rgba(0,0,0,0.3); border-right: 1px solid rgba(255,255,255,0.1); padding: 16px; overflow-y: auto;">
+      <div style="margin-bottom: 24px;">
+        <h1 id="projectTitle" style="font-size: 20px; margin: 0; text-align:center;">Проект</h1>
+      </div>
+      
+      <nav style="display: grid; gap: 4px;">
+        <button class="nav-tab active" data-tab="scripts">📜 Скрипты</button>
+        <button class="nav-tab" data-tab="resources">🗂️ Ресурсы</button>
+        <button class="nav-tab" data-tab="settings">⚙️ Настройки</button>
+      </nav>
+    </aside>
+    
+    <!-- Main Content -->
+    <div style="flex: 1; padding: 24px; overflow-y: auto;">
+      
+      
+      <!-- Scripts Tab -->
+      <div id="tab-scripts" class="tab-content active">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <h2 style="margin: 0;">Скрипты</h2>
+          <div style="display:flex; gap:8px;">
+            <button id="addScriptBtnAlt" class="btn btn-primary">Новый скрипт</button>
+          </div>
+        </div>
+        <div id="scriptsListAll" class="scripts-list"></div>
+      </div>
+      
+      <!-- Resources Tab -->
+      <div id="tab-resources" class="tab-content">
+        <h2 style="margin: 0 0 16px 0;">Ресурсы проекта</h2>
+        <div id="resourcesList" class="scripts-list"></div>
+      </div>
+      
+      <!-- Settings Tab -->
+      <div id="tab-settings" class="tab-content">
+        <h2 style="margin: 0 0 24px 0;">Настройки проекта</h2>
+        <div style="display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); margin-bottom: 24px;">
+          <div class="card">
+            <h3 style="margin: 0 0 12px 0;">Статистика проекта</h3>
+            <div id="projectStats" style="display: grid; gap: 8px; font-size: 14px;"></div>
+          </div>
+          <div class="card">
+            <h3 style="margin: 0 0 12px 0;">Последние изменения</h3>
+            <div id="recentActivity" style="font-size: 14px; color: var(--muted);"></div>
+          </div>
+        </div>
+        <div style="display: grid; gap: 24px; max-width: 600px;">
+          <div class="card" style="padding: 20px;">
+            <h3 style="margin: 0 0 16px 0;">Диалоги</h3>
+            <div class="field">
+              <label style="display: block; margin-bottom: 8px;">Цвет имени в диалогах</label>
+              <input type="color" id="dialogNameColorInput" value="#66CDAA" style="width:120px; height:36px; padding:0; border-radius:8px; background: transparent;" />
+            </div>
+            <div style="margin-top: 16px;">
+              <label style="display: block; font-size:12px; color: var(--muted); margin-bottom:8px;">Предпросмотр в чате:</label>
+              <div id="dialogPreview" class="card" style="padding:12px; font-family: 'Minecraft', 'JetBrains Mono', Consolas, monospace; white-space: pre-wrap; font-size:14px; letter-spacing:0.3px; background: rgba(0,0,0,0.3);">
+                execute{"tellraw @a [\"\",{\"text\":\"[NPC]\",\"color\":\"#66CDAA\"},{\"text\":\"Привет!\",\"color\":\"white\"}]"}
+              </div>
+            </div>
+          </div>
+          <div class="card" style="padding: 20px;">
+            <h3 style="margin: 0 0 16px 0;">Выборы</h3>
+            <div class="field" style="margin-bottom:12px;">
+              <label style="display:block; margin-bottom:8px;">Фон меню (текстура)</label>
+              <select id="choicesBackgroundSelect" style="min-width:240px; height:36px; border-radius:8px; background: transparent; color:var(--text);"></select>
+              <small class="field-hint">По умолчанию: cyber_bg.png</small>
+            </div>
+            <div class="field">
+              <label style="display: block; margin-bottom: 8px;">Цвет текста вопроса</label>
+              <input type="color" id="choicesQuestionColorInput" value="#ffffff" style="width:120px; height:36px; padding:0; border-radius:8px; background: transparent;" />
+            </div>
+            <div class="field" style="margin-top:12px;">
+              <label style="display: block; margin-bottom: 8px;">Цвет вариантов</label>
+              <input type="color" id="choicesOptionColorInput" value="#ffffff" style="width:120px; height:36px; padding:0; border-radius:8px; background: transparent;" />
+            </div>
+            <div class="field" style="margin-top:12px;">
+              <label style="display: block; margin-bottom: 8px;">Префикс перед вариантом</label>
+              <input type="text" id="choicesOptionPrefixInput" value="> " maxlength="8" style="width:120px; height:36px; border-radius:8px; background: transparent; color:var(--text);" />
+            </div>
+            <div style="margin-top: 16px;">
+              <label style="display: block; font-size:12px; color: var(--muted); margin-bottom:8px;">Предпросмотр меню:</label>
+              <div id="choicesPreview" class="card" style="padding:12px; font-family: 'Minecraft', 'JetBrains Mono', Consolas, monospace; white-space: pre-wrap; font-size:14px; letter-spacing:0.3px; background: rgba(0,0,0,0.3);">
+                <div><span style="color:#ffffff">Вопрос: Что сделать?</span></div>
+                <div><span style="color:#ffffff">&gt; Вариант 1</span></div>
+                <div><span style="color:#ffffff">&gt; Вариант 2</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <dialog id="exportInfoDialog" class="dialog">
+      <form method="dialog" class="dialog-body">
+        <h2>Экспорт завершён</h2>
+        <div class="field">
+          <div style="line-height:1.6">
+            <p><b>Что дальше?</b></p>
+            <ol style="padding-left:18px; margin: 8px 0;">
+              <li>Закройте Minecraft, если он запущен.</li>
+              <li>Распакуйте архив в папку с игрой:
+                <ul style="padding-left:18px; margin:6px 0;">
+                  <li><b>Windows</b>: %APPDATA%\\.minecraft</li>
+                  <li><b>Linux</b>: ~/.minecraft</li>
+                  <li><b>macOS</b>: ~/Library/Application Support/minecraft</li>
+                </ul>
+              </li>
+              <li>В архиве папка: <code>hollowengine</code>. Скопируйте её в корень папки игры.</li>
+              <li>Если у вас уже есть своя папка <code>hollowengine</code>, согласитесь на объединение/замену.</li>
+              <li>Запустите игру. После добавления/изменения ресурсов нажмите <b>F3 + T</b> для перезагрузки ресурсов.</li>
+            </ol>
+            <p><b>Моды</b>: для работы нужны моды. Скачайте их одним архивом на странице <a href="mods.html" class="link">Скачать моды</a>, затем распакуйте в папку <code>mods</code> игры.</p>
+            <p>Подписывайтесь на наш телеграм-канал: <a href="https://t.me/auto_he" target="_blank" rel="noopener">t.me/auto_he</a> — там новости, обновления и обратная связь.</p>
+            <p><b>Как запустить скрипт</b> (команда в чате):</p>
+            <pre style="background:#0a0e13;color:#b7c9dd;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);white-space:pre-wrap;">/hollowengine start-script @a "hollowengine/scripts/main_story.se.kts"</pre>
+            <p style="margin-top:6px; color: var(--muted);">Замените путь на свой, например: <code>hollowengine/scripts/&lt;имя_скрипта&gt;.se.kts</code>.</p>
+            <div id="exportCommands"></div>
+            <p><b>Важно про ResourceLocation</b>: ресурсы ищутся по пути вида <code>modid:path/to/resource.format</code>. В экспорте модели лежат в <code>hollowengine/assets/&lt;modid&gt;/models</code>, а в скриптах путь указывается как <code>&lt;modid&gt;:models/&lt;имя_модели&gt;.gltf|glb</code>.</p>
+          </div>
+        </div>
+        <div class="dialog-actions">
+          <button type="submit" value="ok" class="btn btn-primary">Понятно</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="createScriptDialog" class="dialog">
+      <form method="dialog" id="createScriptForm" class="dialog-body">
+        <h2>Новый скрипт</h2>
+
+        <label class="field">
+          <span>Тип скрипта</span>
+          <div class="script-type-selector">
+            <label class="type-option">
+              <input type="radio" name="scriptType" value="story" checked>
+              <div class="type-card">
+                <div class="type-icon">📖</div>
+                <div class="type-info">
+                  <div class="type-name">Сюжетный</div>
+                  <div class="type-desc">Основная логика истории</div>
+                </div>
+              </div>
+            </label>
+            <label class="type-option" title="Скоро">
+              <input type="radio" name="scriptType" value="content" disabled>
+              <div class="type-card" style="opacity:.6; cursor:not-allowed;">
+                <div class="type-icon">💬</div>
+                <div class="type-info">
+                  <div class="type-name">Контентный</div>
+                  <div class="type-desc">Скоро</div>
+                </div>
+              </div>
+            </label>
+            <label class="type-option" title="Скоро">
+              <input type="radio" name="scriptType" value="mod" disabled>
+              <div class="type-card" style="opacity:.6; cursor:not-allowed;">
+                <div class="type-icon">⚙️</div>
+                <div class="type-info">
+                  <div class="type-name">Модификация</div>
+                  <div class="type-desc">Скоро</div>
+                </div>
+              </div>
+            </label>
+          </div>
+        </label>
+
+        <label class="field">
+          <span>Имя скрипта <small>(только английские буквы, цифры, _)</small></span>
+          <input id="scriptNameInput" type="text" required placeholder="main_story" pattern="[a-z0-9_]+" />
+          <small class="field-hint">Например: main_story, intro_dialog, custom_mechanics</small>
+        </label>
+
+        <label class="field">
+          <span>Описание <small>(необязательно)</small></span>
+          <textarea id="scriptDescInput" placeholder="Краткое описание скрипта..."></textarea>
+        </label>
+
+        <div class="dialog-actions">
+          <button type="button" value="cancel" class="btn btn-ghost">Отмена</button>
+          <button type="submit" value="confirm" class="btn btn-primary">Создать скрипт</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="renameScriptDialog" class="dialog">
+      <form method="dialog" id="renameScriptForm" class="dialog-body">
+        <h2>Переименовать скрипт</h2>
+        <label class="field">
+          <span>Новое имя скрипта <small>(только английские буквы, цифры, _)</small></span>
+          <input id="renameScriptInput" type="text" required pattern="[a-z0-9_]+" />
+          <small class="field-hint">Например: main_story, intro_dialog, custom_mechanics</small>
+        </label>
+        <div class="dialog-actions">
+          <button type="button" value="cancel" class="btn btn-ghost">Отмена</button>
+          <button type="submit" value="confirm" class="btn btn-primary">Сохранить</button>
+        </div>
+      </form>
+    </dialog>
+  </main>
+
+  <dialog id="worldViewerDialog" class="dialog" style="max-width:920px;">
+    <form method="dialog" class="dialog-body" style="display:grid; gap:12px;">
+      <h2>Просмотр мира</h2>
+      <div class="field" style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+        <label style="display:flex; flex-direction:column; gap:4px;">
+          <span>Регион</span>
+          <select id="wvRegionSelect" style="min-width:220px;"></select>
+        </label>
+        <label style="display:flex; flex-direction:column; gap:4px;">
+          <span>Высота Y</span>
+          <input id="wvYInput" type="number" value="64" step="1" style="width:120px;" />
+        </label>
+        <span id="wvInfo" style="color:var(--muted);"></span>
+      </div>
+      <div class="card" style="padding:8px;">
+        <canvas id="wvCanvas" width="512" height="512" style="width:100%; max-width:864px; background:#0b0f14; border-radius:8px; display:block;"></canvas>
+      </div>
+      <div class="dialog-actions">
+        <button type="submit" value="close" class="btn btn-primary">Закрыть</button>
+      </div>
+    </form>
+  </dialog>
+
+  
+
+  <section class="container" style="margin:24px auto;">
+    <!-- Yandex.RTB R-A-16900057-2 -->
+    <div id="yandex_rtb_R-A-16900057-2"></div>
+    <script>
+    window.yaContextCb.push(() => {
+        Ya.Context.AdvManager.render({
+            "blockId": "R-A-16900057-2",
+            "renderTo": "yandex_rtb_R-A-16900057-2"
+        })
+    })
+    </script>
+  </section>
+
+  <footer class="app-footer">
+    <div class="container footer-inner">
+      <div>© <span id="year"></span> AutoHE</div>
+      <div class="footer-nav">
+        <a href="docs.html">Документация</a>
+        <a href="projects.html">Проекты</a>
+        <a href="https://t.me/auto_he" target="_blank" rel="noopener">Телеграм</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/common.js?v=1.2"></script>
+  <script src="assets/js/project_new.js?v=1.2"></script>
+</body>
+</html>
